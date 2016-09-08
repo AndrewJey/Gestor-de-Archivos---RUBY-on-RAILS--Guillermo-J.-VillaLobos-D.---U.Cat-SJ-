@@ -1,0 +1,11 @@
+como referencia para el progama use las siguientes paginas:
+http://code.tutsplus.com/tutorials/build-a-dropbox-like-file-sharing-site-with-ruby-on-rails--net-17940
+
+https://www.pubnub.com/blog/2015-12-08-building-video-sharing-app-server-messaging-ruby/
+
+https://gorails.com/setup/ubuntu/16.04
+
+https://www.digitalocean.com/community/tutorials/how-to-setup-ruby-on-rails-with-postgres
+
+esta seria la ruta del servidor:
+http://alfresco.vitechd.com:3000

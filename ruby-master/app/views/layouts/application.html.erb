@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Proyecto</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+
+<div class="header_wrapper"> 
+    <div class="logo"> 
+        <%= link_to "VITEHCD", root_url %> 
+    </div> 
+</div>
+<div id="login_user_status"> 
+    <% if user_signed_in? %> 
+        <%= current_user.email  %>  
+        | 
+<%= link_to 'Editar Perfil', edit_user_registration_path, :class => 'navbar-link' %> |
+        <%= link_to "Sign out", destroy_user_session_path %> 
+    <% else %> 
+        <em>Not Signed in.</em> 
+        <%= link_to 'Sign in', new_user_session_path%> 
+        or 
+        <%= link_to 'Sign up', new_user_registration_path%> 
+    <% end %> 
+</div>
+
+
+
+<% if notice %>
+  <p class="alert alert-success"><%= notice %></p>
+<% end %>
+<% if alert %>
+  <p class="alert alert-danger"><%= alert %></p>
+<% end %>
+<%= yield %>
+
+
+</body>
+</html>

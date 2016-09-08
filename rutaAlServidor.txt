@@ -1,0 +1,2 @@
+esta seria la ruta del servidor:
+http://alfresco.vitechd.com:3000
