@@ -21,3 +21,11 @@ Inventario y compilaciones locales del 2026-11-15. Una compilación correcta no 
 
 `.gitignore` excluye credenciales locales, estado del editor y salidas de las herramientas detectadas. No deja de versionar archivos que ya estaban en Git. Los manifiestos, archivos de bloqueo, recursos fuente y scripts de esquema forman parte del código.
 <!-- local-development:end -->
+
+
+<!-- improvements-20261119:start -->
+## Mejoras y verificación — 2026-11-19 (Reparación de métodos privados duplicados, autorización CRUD y credenciales por entorno (Rails))
+
+- **Cambios:** Corregida la redefinición privada de `publish!`, `like!` y `dislike!` en `Video` (evitando `NoMethodError` y likes negativos/`nil`), completados `update`/`destroy` y verificación de propietario (`authorize_owner!`) + asociación `current_user` en `VideosController`, protegida la ruta `/sidekiq` con `authenticate :user`, eliminadas credenciales fijas en `config/database.yml` y guardada la inicialización de PubNub sin claves.
+- **Validación:** WSL Ruby 3.2.3 `ruby -c` (39/39 archivos `.rb`) + 7/7 pruebas unitarias sobre `User` y `Video`.
+<!-- improvements-20261119:end -->

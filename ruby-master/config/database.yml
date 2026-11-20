@@ -1,15 +1,20 @@
-development:
+default: &default
   adapter: postgresql
   encoding: unicode
-  database: proyecto
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  host: <%= ENV.fetch("PG_HOST", "localhost") %>
+  port: <%= ENV.fetch("PG_PORT", 5432) %>
+  username: <%= ENV.fetch("PG_USERNAME", "postgres") %>
+  password: <%= ENV["PG_PASSWORD"] %>
 
-  username: legosc
-  password: g.j.7811
+development:
+  <<: *default
+  database: <%= ENV.fetch("PG_DATABASE", "proyecto") %>
 
 test:
-  adapter: postgresql
-  encoding: unicode
-  database: proyecto_test
+  <<: *default
+  database: <%= ENV.fetch("PG_TEST_DATABASE", "proyecto_test") %>
 
-  username: legosc
-  password: g.j.7811
+production:
+  <<: *default
+  database: <%= ENV.fetch("PG_DATABASE", "proyecto_production") %>

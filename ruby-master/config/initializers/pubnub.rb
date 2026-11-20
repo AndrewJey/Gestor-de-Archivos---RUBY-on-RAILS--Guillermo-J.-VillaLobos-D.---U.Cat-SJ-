@@ -1,37 +1,22 @@
-# Initialize pubnub client with our keys
-$pubnub = Pubnub.new(
-    subscribe_key: Rails.application.secrets.pubnub_subscribe_key,
-    publish_key: Rails.application.secrets.pubnub_publish_key,
-    secret_key: Rails.application.secrets.pubnub_secret_key,
-)
+# Initialize PubNub client only when keys are configured
+sub_key = Rails.application.secrets.pubnub_subscribe_key || ENV['PUBNUB_SUBSCRIBE_KEY']
+pub_key = Rails.application.secrets.pubnub_publish_key || ENV['PUBNUB_PUBLISH_KEY']
+sec_key = Rails.application.secrets.pubnub_secret_key || ENV['PUBNUB_SECRET_KEY']
+auth_key = Rails.application.secrets.pubnub_auth_key || ENV['PUBNUB_AUTH_KEY']
 
-# As we have PAM enabled, we have to grant access to channels.
-# That grants read right to any channel that begins with 'video.' to everyone.
-$pubnub.grant(
-    read: true,
-    write: false,
-    auth_key: nil,
-    channel: 'video.*',
-    http_sync: true,
-    ttl: 0
-)
+if sub_key.present? && pub_key.present?
+  $pubnub = Pubnub.new(
+    subscribe_key: sub_key,
+    publish_key: pub_key,
+    secret_key: sec_key
+  )
 
-# That grants read and write right to any channel that begins with 'video.' to this client.
-$pubnub.grant(
-    read: true,
-    write: true,
-    auth_key: Rails.application.secrets.pubnub_auth_key,
-    channel: 'video.*',
-    http_sync: true,
-    ttl: 0
-)
-
-# That grants read and write right to any channel that begins with 'notifications.' to this client.
-$pubnub.grant(
-    read: true,
-    write: true,
-    auth_key: Rails.application.secrets.pubnub_auth_key,
-    channel: 'notifications.*',
-    http_sync: true,
-    ttl: 0
-)
+  # Grant read access on video.* and read/write on authorized channels
+  $pubnub.grant(read: true, write: false, auth_key: nil, channel: 'video.*', http_sync: true, ttl: 0)
+  if auth_key.present?
+    $pubnub.grant(read: true, write: true, auth_key: auth_key, channel: 'video.*', http_sync: true, ttl: 0)
+    $pubnub.grant(read: true, write: true, auth_key: auth_key, channel: 'notifications.*', http_sync: true, ttl: 0)
+  end
+else
+  $pubnub = nil
+end
